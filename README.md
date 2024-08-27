@@ -51,9 +51,9 @@ yarn add contentful-lib-helpers
 
 ### Requirements
 
-* `node` >= 18.0.0
-* `npm` >= 9.5.0
-* `contentful-management` >= 7.50.0 
+* `node` >= 18.20.0
+* `npm` >= 10.5.0
+* `contentful-management` >= 11.31.7
 
 ## 📟 Example
 
