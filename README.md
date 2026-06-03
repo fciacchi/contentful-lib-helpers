@@ -51,9 +51,9 @@ yarn add contentful-lib-helpers
 
 ### Requirements
 
-* `node` >= 18.20.0
+* `node` >= 22
 * `npm` >= 10.5.0
-* `contentful-management` >= 11.31.7
+* `contentful-management` >= 12.x.x
 
 ## 📟 Example
 
@@ -65,7 +65,7 @@ We show both implementations: one using only the Contentful Management SDK and t
 
 ```javascript
 (async function main () {
-    const contentfulManagement = require('contentful-management')
+    const contentfulManagement = await import('contentful-management')
     const lib = await import('contentful-lib-helpers')
     const environment = await lib.getEnvironment(
         contentfulManagement,
@@ -96,10 +96,11 @@ We show both implementations: one using only the Contentful Management SDK and t
 
 ```javascript
 (async function main () {
-    const contentfulManagement = require('contentful-management')
-    const client = await contentfulManagement.createClient({
-    accessToken: 'your-access-token',
-    })
+    const contentfulManagement = await import('contentful-management')
+    const client = await contentfulManagement.createClient(
+        { accessToken: 'your-access-token' },
+        { type: 'legacy'}
+    )
 
     try {
         // Get the environment
@@ -160,9 +161,6 @@ Two alternative ways to include the Contentful library as ES Module are the foll
 import contentfulManagement from 'contentful-management'
 
 // Inside a function
-const { default: contentfulManagement } = await import('contentful-management')
-
-// If you are using Bun.sh
 const contentfulManagement = await import('contentful-management')
 ```
 
@@ -335,6 +333,8 @@ Note: the decision to return an empty collection, is because collections of any 
 #### Example Usage
 
 ```javascript
+import { getContentTypes } from 'contentful-lib-helpers'
+
 const allContentTypes = await getContentTypes(
     environment, 
     2
@@ -387,7 +387,9 @@ The function returns a Promise that resolves with the content-type object if it 
 #### Example Usage
 
 ```javascript
-const contentType = await getContentTypes(
+import { getContentType } from 'contentful-lib-helpers'
+
+const contentType = await getContentType(
     environment, 
     'translation',
     2
@@ -466,6 +468,8 @@ Note: the decision to return an empty collection, is because collections of any 
 #### Example Usage
 
 ```javascript
+import { getAllEntriesByContentType } from 'contentful-lib-helpers'
+
 const allEntries = await getAllEntriesByContentType(
     environment, 
     'translation',
@@ -514,6 +518,8 @@ A Promise that resolves to the Entry ID or `null` otherwise. We can then use [ge
 #### Example Usage
 
 ```javascript
+import { getEntryIdByUniqueField } from 'contentful-lib-helpers'
+
 const entryId = await getEntryIdByUniqueField(
     environment,
     'translation',
@@ -547,6 +553,8 @@ A Promise that resolves with the entry object, or `null` if not found.
 #### Example Usage
 
 ```javascript
+import { getEntry } from 'contentful-lib-helpers'
+
 const entry = await getEntry(
     environment,
     'exampleEntryId',
@@ -595,6 +603,8 @@ It returns the status of an Entry: `published`, `changed`, `draft` and `archived
 #### Example Usage
 
 ```javascript
+import { getEntry, extractStatusFromSys } from 'contentful-lib-helpers'
+
 const entry = await getEntry(
     environment,
     'exampleEntryId'
@@ -628,6 +638,8 @@ A Promise that resolves with `true` if the entry was published successfully, or 
 #### Example Usage
 
 ```javascript
+import { publishEntry } from 'contentful-lib-helpers'
+
 const isEntryPublished = await publishEntry(
     environment,
     'exampleEntryId',
@@ -660,6 +672,8 @@ Promise that resolves with `true` if the entry was unpublished successfully, or 
 #### Example Usage
 
 ```javascript
+import { unpublishEntry } from 'contentful-lib-helpers'
+
 const isEntryUnpublished = await unpublishEntry(
     environment,
     'exampleEntryId',
@@ -692,6 +706,8 @@ A Promise that resolves with `true` if the tag exists, or `false` otherwise.
 #### Example Usage
 
 ```javascript
+import { getTagExists } from 'contentful-lib-helpers'
+
 const tagExists = await getTagExists(
     environment,
     'country-en',
@@ -727,6 +743,8 @@ Note: the entry will need to be republished, after the tag is added. See [publis
 #### Example Usage
 
 ```javascript
+import { addEntryTag } from 'contentful-lib-helpers'
+
 const isTagAdded = await addEntryTag(
     environment,
     'exampleEntryId',
@@ -763,7 +781,9 @@ Note: the entry will need to be republished, after the tag is removed. See [publ
 #### Example Usage
 
 ```javascript
-const isTagRemoved = await addEntryTag(
+import { removeEntryTag } from 'contentful-lib-helpers'
+
+const isTagRemoved = await removeEntryTag(
     environment,
     'exampleEntryId',
     'exampleTagId',
@@ -842,6 +862,8 @@ A Collection of Locale objects.
 #### Example Usage
 
 ```javascript
+import { getAllLocales } from 'contentful-lib-helpers'
+
 const allLocales = await getAllLocales(
     environment,
     2
@@ -900,6 +922,8 @@ An array of locale codes.
 #### Example Usage
 
 ```javascript
+import { getAllLocalesCode } from 'contentful-lib-helpers'
+
 const allLocalesCode = await getAllLocalesCode(
     environment,
     2
@@ -929,6 +953,8 @@ The function returns the locale object of the default locale of the Contentful e
 #### Example Usage
 
 ```javascript
+import { getDefaultLocale } from 'contentful-lib-helpers'
+
 const defaultLocale = await getDefaultLocale(
     environment,
     2
@@ -977,6 +1003,8 @@ The function returns default locale code, as a string.
 #### Example Usage
 
 ```javascript
+import { getDefaultLocaleCode } from 'contentful-lib-helpers'
+
 const defaultLocaleCode = await getDefaultLocaleCode(
     environment,
     2
@@ -992,7 +1020,7 @@ en-US
 </details>
 <hr />
 
-### • `getDefaultValuseForLocales`
+### • `getDefaultValuesForLocales`
 
 This is a very particular function. Passing a 'default' value, that can be anything (`null`, boolean, string, etc), it returns an object whose keys are the locales, and the values are the default value passed.
 
@@ -1008,6 +1036,8 @@ The function returns an object whose keys are the locales and the values are the
 #### Example Usage
 
 ```javascript
+import { getDefaultValuesForLocales } from 'contentful-lib-helpers'
+
 const objectDefaultValues = await getDefaultValuesForLocales(
     environment,
     true
@@ -1039,6 +1069,8 @@ The function returns an Environment object that can be queried or manipulated to
 #### Example Usage
 
 ```javascript
+import { duplicateEnvironment } from 'contentful-lib-helpers'
+
 const newEnvironment = await duplicateEnvironment(
     space,
     'master',
@@ -1089,6 +1121,8 @@ This function is needed when we want to enable an Environment for a particular C
 #### Example Usage
 
 ```javascript
+import { enableCdaKey } from 'contentful-lib-helpers'
+
 const enabledCdaKey = await enableCdaKey(
     space,
     'master',
@@ -1125,6 +1159,8 @@ The function does not return any value, but it does return a detailed error mess
 #### Example Usage
 
 ```javascript
+import { linkAliasToEnvironment } from 'contentful-lib-helpers'
+
 await linkAliasToEnvironment(
     space,
     'release-1.25.5',
@@ -1148,7 +1184,9 @@ The function does not return any value, but it does return a detailed error mess
 #### Example Usage
 
 ```javascript
- await syncScheduledActions(
+import { syncScheduledActions } from 'contentful-lib-helpers'
+
+await syncScheduledActions(
     space,
     'master',
     'release-1.25.5',
