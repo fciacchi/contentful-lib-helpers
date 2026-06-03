@@ -1,6 +1,6 @@
 {
   "name": "contentful-lib-helpers",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "Helpers for Contentful's Content Management API",
   "homepage": "https://github.com/AtidaTech/contentful-lib-helpers",
@@ -13,7 +13,7 @@
     "contentful-lib-helpers"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "repository": {
     "type": "git",
@@ -25,9 +25,9 @@
     "lint": "node_modules/eslint/bin/eslint.js --resolve-plugins-relative-to ./ --ext js,mjs,cjs,jsx,ts,tsx ./lib",
     "lint-fix": "node_modules/eslint/bin/eslint.js --resolve-plugins-relative-to ./ --ext js,mjs,cjs,jsx,ts,tsx ./lib --fix"
   },
-  "main":"index.js",
+  "main": "index.js",
   "dependencies": {
-    "contentful-management": ">11.31.7",
+    "contentful-management": ">=12.0.0 <13.0.0",
     "follow-redirects": ">=1.15.6",
     "natural-orderby": "^2.0.3"
   },
