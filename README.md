@@ -506,6 +506,7 @@ Find an Entry in a specific Content Type and locale by its unique identifier fie
 
 #### Parameters
 - `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `contentTypeId` - The ID of the content-type to search in.
 - `fieldId` - The ID of the unique field to search for. A unique field is usually a mandatory and unique field in the Content-type (ie: slug).
 - `fieldValue` - The value to search for in the unique field.
 - `fieldLocale` - The locale to search in for the unique field. If not provided, the default locale will be used.
